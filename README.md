@@ -1,5 +1,8 @@
 # API Local para Sistema de Ranking - Arquitetura e Implementação
 
+[![Português](https://img.shields.io/badge/lang-pt--br-green.svg)](README.md)
+[![English](https://img.shields.io/badge/lang-en-red.svg)](README.en.md)
+
 ## 🎯 Visão Geral da Solução
 
 A ideia consiste em criar uma **API REST local** que roda em um computador dedicado da casa, servindo como servidor central para o sistema de ranking de jogos. Isso permite que múltiplos dispositivos na rede local acessem e sincronizem dados, mantendo a escalabilidade sem depender de serviços externos.
