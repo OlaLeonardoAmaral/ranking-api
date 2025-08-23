@@ -19,6 +19,10 @@ logs
 .env.production
 .env.test
 
+# Banco de dados SQLite
+*.db
+*.db-journal
+
 # Cache do TypeScript
 *.tscache
 
@@ -48,3 +52,5 @@ Thumbs.db
 coverage/
 *.lcov
 .nyc_output
+
+/src/generated/prisma

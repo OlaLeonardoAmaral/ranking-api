@@ -1,4 +1,8 @@
 import fastify from 'fastify';
+import { PrismaClient } from '@prisma/client';
+
+// Instanciar Prisma Client
+const prisma = new PrismaClient();
 
 // Criar instância do Fastify sem logs
 const server = fastify({
@@ -8,6 +12,12 @@ const server = fastify({
 // Rota GET /hello
 server.get('/hello', async () => {
   return 'Hello World';
+});
+
+// Rota de teste do banco de dados
+server.get('/users', async () => {
+  const users = await prisma.user.findMany();
+  return users;
 });
 
 // Iniciar servidor
