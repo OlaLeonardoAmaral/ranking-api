@@ -10,12 +10,103 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Modelo de Jogador
+model Jogador {
+  id       Int @id
+  nome     String
+  emoji    String
+  moedas   Int
+  vitorias Int
+  derrotas Int
 
-  @@map("users")
+  // Relacionamentos
+  partidasJogador PartidaJogador[]
+  rodadasVencidas Rodada[]         @relation("RodadaVencedor")
+  historicoPartidas HistoricoPartida[] @relation("HistoricoVencedor")
+
+  @@map("jogadores")
+}
+
+// Modelo de Jogo
+model Jogo {
+  id             Int @id
+  nome           String
+  emoji          String
+  jogadoresMin   Int @map("jogadores_min")
+  jogadoresMax   Int @map("jogadores_max")
+  apostaPadrao   Int @map("aposta_padrao")
+
+  // Relacionamentos
+  partidas Partida[]
+
+  @@map("jogos")
+}
+
+// Modelo de Partida
+model Partida {
+  id           Int      @id
+  jogoId       Int      @map("jogo_id")
+  data         DateTime
+  encerrada    Boolean
+  apostaAtual  Int      @map("aposta_atual")
+
+  // Relacionamentos
+  jogo             Jogo               @relation(fields: [jogoId], references: [id])
+  partidasJogador  PartidaJogador[]
+  rodadas          Rodada[]
+  historicoPartida HistoricoPartida?
+
+  @@map("partidas")
+}
+
+// Modelo de associação entre Partida e Jogador (tabela pivot)
+model PartidaJogador {
+  partidaId        Int @map("partida_id")
+  jogadorId        Int @map("jogador_id")
+  ativo            Boolean
+  vitoriasRodada   Int @map("vitorias_rodada")
+  derrotasRodada   Int @map("derrotas_rodada")
+  moedasGanhas     Int @map("moedas_ganhas")
+  moedasPerdidas   Int @map("moedas_perdidas")
+
+  // Relacionamentos
+  partida  Partida  @relation(fields: [partidaId], references: [id])
+  jogador  Jogador  @relation(fields: [jogadorId], references: [id])
+
+  @@id([partidaId, jogadorId])
+  @@map("partida_jogadores")
+}
+
+// Modelo de Rodada
+model Rodada {
+  id            Int @id
+  partidaId     Int @map("partida_id")
+  numeroRodada  Int @map("numero_rodada")
+  vencedorId    Int @map("vencedor_id")
+  apostaRodada  Int @map("aposta_rodada")
+
+  // Relacionamentos
+  partida  Partida @relation(fields: [partidaId], references: [id])
+  vencedor Jogador @relation("RodadaVencedor", fields: [vencedorId], references: [id])
+
+  @@map("rodadas")
+}
+
+// Modelo de Histórico das Partidas
+model HistoricoPartida {
+  id                    Int      @id
+  partidaId             Int      @unique @map("partida_id")
+  jogoNome              String   @map("jogo_nome")
+  data                  DateTime
+  vencedorId            Int      @map("vencedor_id")
+  moedasTotaisGanhas    Int      @map("moedas_totais_ganhas")
+  moedasTotaisPerdidas  Int      @map("moedas_totais_perdidas")
+  vitoriasTotais        Int      @map("vitorias_totais")
+  derrotasTotais        Int      @map("derrotas_totais")
+
+  // Relacionamentos
+  partida  Partida @relation(fields: [partidaId], references: [id])
+  vencedor Jogador @relation("HistoricoVencedor", fields: [vencedorId], references: [id])
+
+  @@map("historico_partidas")
 }
