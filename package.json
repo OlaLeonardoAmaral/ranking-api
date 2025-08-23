@@ -1,0 +1,33 @@
+{
+  "name": "ranking-api",
+  "version": "1.0.0",
+  "description": "[![Português](https://img.shields.io/badge/lang-pt--br-green.svg)](README.md) [![English](https://img.shields.io/badge/lang-en-red.svg)](README.en.md)",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "clean": "rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlaLeonardoAmaral/ranking-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlaLeonardoAmaral/ranking-api/issues"
+  },
+  "homepage": "https://github.com/OlaLeonardoAmaral/ranking-api#readme",
+  "dependencies": {
+    "fastify": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
